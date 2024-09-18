@@ -14,4 +14,27 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 
+
+    <repositories>
+        <repository>
+            <id>om.oracle.database.jdbc</id>
+            <url>https://mvnrepository.com/artifact/com.oracle.database.jdbc/ucp</url>
+        </repository>
+    </repositories>
+
+    <dependencies>
+    <dependency>
+        <groupId>com.oracle.database.jdbc</groupId>
+        <artifactId>ucp11</artifactId>
+        <version>23.2.0.0</version>
+    </dependency>
+        <dependency>
+            <groupId>com.oracle.database.jdbc</groupId>
+            <artifactId>ojdbc11</artifactId>
+            <version>23.2.0.0</version>
+        </dependency>
+    </dependencies>
+
 </project>
+
+
