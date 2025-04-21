@@ -1,0 +1,22 @@
+{
+  "audit_name": "audits_dummy",
+  "client_timestamp": "1613043042721",
+  "event": "get",
+  "resource":
+    {
+      "data":
+        {
+          "current": {
+            "key": "this is a dummy data",
+            "info": "cmhylgrcshbppjyztpruchfiuhngsxaqaeeksnltnszznrlutewecfcmhylgrcshbppjyztpruchfiuhngsxaqaeeksnltnszznrlutewecfcmhylgrcshbppjyztpruchfiuhngsxaqaeeksnltnszznrlutewecfcmhylgrcshbppjyztpruchfiuhngsxaqaeeksnltnszznrlutewecfcmhylgrcshbppjyztpruchfiuhngsxaqaeeksnltnszznrlutewecfcmhylgrcshbppjyztpruchfiuhngsxaqaeeksnltnszznrlutewecfcmhylgrcshbppjyztpruchfiuhngsxaqaeeksnltnszznrlutewecfcmhylgrcshbppjyztpruchfiuhngsxaqaeeksnltnszznrlutewecfcmhylgrcshbppjyztpruchfiuhngsxaqaeeksnltnszznrlutewecfcmhylgrcshbppjyztpruchfiuhngsxaqaeeksnltnszznrlutewecfcmhylgrcshbppjyztpruchfiuhngsxaqaeeksnltnszznrlutewecfcmhylgrcshbppjyztpruchfiuhngsxaqaeeksnltnszznrlutewecf",
+            "metadata": ["metadata1", "metadata2"]
+          }
+        },
+      "id": "123",
+      "type": "this is a dummy data"
+   },
+  "scope": "123",
+  "source": "this is a dummy data",
+  "tags": ["tag1", "tag2"],
+  "user": "chespirito"
+}

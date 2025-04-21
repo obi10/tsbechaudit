@@ -16,7 +16,6 @@ public class ReadRequest implements Runnable {
     private int count = 0;
     private int duration;
     private BufferedWriter logger;
-    private final List< List<String> > data;
 
     public ReadRequest(int threadNumber, Connection conn, int maxDurationSeconds) {
 
@@ -28,33 +27,6 @@ public class ReadRequest implements Runnable {
         } catch (Exception e) {
             System.out.println("Error on creating log file: " + e);
             System.exit(1);
-        }
-
-        data = new ArrayList<>();//list of lists to store data
-        String csvFile = "/home/opc/IdeaProjects/tsbenchmysql-poc-meli/src/main/java/poc/devices.csv"; // Replace with your CSV file path
-
-        try {
-            FileReader fr = new FileReader(csvFile);
-            BufferedReader br = new BufferedReader(fr);
-            //Reading until we run out of lines
-            try {
-                String line = br.readLine();
-                while(line != null)
-                {
-                    List<String> lineData = Arrays.asList(line.split(","));//splitting lines
-                    data.add(lineData);
-                    try {
-                        line = br.readLine();
-                    } catch (IOException e) {
-                        throw new RuntimeException(e);
-                    }
-                }
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
-
-        } catch (FileNotFoundException e) {
-            throw new RuntimeException(e);
         }
 
     }
@@ -75,15 +47,9 @@ public class ReadRequest implements Runnable {
         long start, end;
         start = System.currentTimeMillis();
         while (true) {
-            int index = getRandomNumInRange(data.size()-1);
-            String[] randomDevice = data.get(index).toString().split(",");
 
-            try {
-                query1(randomDevice[0].substring(1), randomDevice[14].substring(1));
-                count++;
-            } catch (SQLException e) {
-                System.out.println("Error running query: " + e);
-            }
+
+            count++;
 
             end = System.currentTimeMillis();
             duration = (int) (end - start) / 1000;

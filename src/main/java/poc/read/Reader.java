@@ -7,6 +7,7 @@ import java.io.FileInputStream;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
+import java.time.Duration;
 import java.util.Date;
 import java.util.Properties;
 import java.util.concurrent.ExecutorService;
@@ -62,7 +63,7 @@ public class Reader implements Runnable{
                 System.out.println("Starting all " + threads + " reader threads\n");
 
                 ReadRequest[] rThread;
-                try (ExecutorService executorService = Executors.newFixedThreadPool(threads)) {
+                try (ExecutorService executorService = Executors.newVirtualThreadPerTaskExecutor()) {
                     rThread = new ReadRequest[threads];
 
                     for (int i = 0; i < rThread.length; i++) {
@@ -168,6 +169,7 @@ public class Reader implements Runnable{
         pds.setPassword(password);
         pds.setConnectionFactoryClassName(factclassdriver);
         pds.setValidateConnectionOnBorrow(validateConnectionOnBorrow);
+        //pds.setConnectionWaitTimeout(Duration.ofMillis(connectionWaitTimeout));
 
         /* Optional pool properties */
 
