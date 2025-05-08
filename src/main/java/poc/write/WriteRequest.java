@@ -13,6 +13,8 @@ import java.util.concurrent.ThreadLocalRandom;
 
 import com.fasterxml.jackson.databind.*;
 
+import oracle.jdbc.OracleType;
+
 /**
  * Clase que maneja las operaciones de escritura en la base de datos.
  * Cada instancia representa un thread de escritura que puede realizar
@@ -55,7 +57,7 @@ public class WriteRequest implements Runnable {
      */
     @Override
     public void run() {
-        String logFile = "log/write_thread_" + threadNumber + ".log";
+        String logFile = "/home/opc/Documents/cursor_projects/tsbechaudit/log/write_thread_" + threadNumber + ".log";
 
         try {
             logger = new BufferedWriter(new FileWriter(Paths.get(logFile).toFile()));
@@ -87,7 +89,7 @@ public class WriteRequest implements Runnable {
         long start, end;
         count = 0;
 
-        String insert = "INSERT INTO embeddings (item_id, embedding) VALUES (?, VECTOR(?, ?))";
+        String insert = "INSERT INTO embeddings (item_id, embedding) VALUES (?, ?)";
 
         try {
             prepStmt = conn.prepareStatement(insert);
@@ -96,14 +98,13 @@ public class WriteRequest implements Runnable {
             while (true) {
                 int numUPd = 0; //buena practica si ocurre una excepcion
 
-                String itemId = "item_" + count;
+                int itemId = count; // Usar el contador como ID numérico
                 float[] vector = generarVector(vectorDim);
 
                 Instant startInsert = Instant.now(); //empieza a medir tiempo de insert unitario + commit
                 try {
-                    prepStmt.setString(1, itemId);
-                    prepStmt.setObject(2, vector);
-                    prepStmt.setInt(3, vectorDim);
+                    prepStmt.setInt(1, itemId); // Usar setInt en lugar de setString
+                    prepStmt.setObject(2, vector, OracleType.VECTOR_FLOAT32);
                     numUPd = prepStmt.executeUpdate();
                     conn.commit();
                 } catch (Exception e) {
@@ -141,7 +142,7 @@ public class WriteRequest implements Runnable {
         long start, end;
         count = 0;
 
-        String insert = "INSERT INTO embeddings (item_id, embedding) VALUES (?, VECTOR(?, ?))";
+        String insert = "INSERT INTO embeddings (item_id, embedding) VALUES (?, ?)";
 
         try {
             prepStmt = conn.prepareStatement(insert);
@@ -149,11 +150,10 @@ public class WriteRequest implements Runnable {
             
             while (true) {
                 for (int i = 0; i < batchSize; i++) {
-                    String itemId = "item_" + (count + i);
+                    int itemId = count + i; // Usar números como IDs
                     float[] vector = generarVector(vectorDim);
-                    prepStmt.setString(1, itemId);
-                    prepStmt.setObject(2, vector);
-                    prepStmt.setInt(3, vectorDim);
+                    prepStmt.setInt(1, itemId); // Usar setInt en lugar de setString
+                    prepStmt.setObject(2, vector, OracleType.VECTOR_FLOAT32);
                     prepStmt.addBatch();
                 }
                 
@@ -195,6 +195,7 @@ public class WriteRequest implements Runnable {
         for (int i = 0; i < dim; i++) {
             vector[i] = (float) ThreadLocalRandom.current().nextDouble();
         }
+
         return vector;
     }
 

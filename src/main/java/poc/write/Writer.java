@@ -44,7 +44,7 @@ public class Writer implements Runnable {
     public Writer() {
         this.prop = new Properties();
         try {
-            String PROP_FILE = "/Users/junicode/Documents/developer_junicode/cursor_projects/tsbechaudit/src/main/java/poc/ucp-threads.properties";
+            String PROP_FILE = "/home/opc/Documents/cursor_projects/tsbechaudit/src/main/java/poc/ucp-threads.properties";
             this.prop.load(new FileInputStream(PROP_FILE));
         } catch (Exception e) {
             System.out.println("Error on reading properties file: " + e);
