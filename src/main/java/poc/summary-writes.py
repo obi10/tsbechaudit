@@ -32,8 +32,10 @@ def p99(x):
 
 df_ela_summary = data.groupby('query').agg({'ela': [count, avg, p90, p95, p97, p98, p99, max]})
 df_cnt_summary = data.groupby('ts')['ts'].count().mean().round()
+max_writes_per_sec = data.groupby('ts')['ts'].count().max()
 
 print("----------------------------------------------")
 print(df_ela_summary)
 print("----------------------------------------------")
 print("Avg writes/sec: " + str(df_cnt_summary))
+print("Max writes/sec: " + str(max_writes_per_sec))
