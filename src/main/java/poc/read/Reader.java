@@ -2,6 +2,7 @@ package poc.read;
 
 import oracle.ucp.jdbc.PoolDataSource;
 import oracle.ucp.jdbc.PoolDataSourceFactory;
+import java.io.File;
 
 import java.io.FileInputStream;
 import java.sql.Connection;
@@ -55,6 +56,8 @@ public class Reader implements Runnable{
                 // Obtiene el número de threads del archivo de propiedades
                 threads = Integer.parseInt(prop.getProperty("app.readerThreads"));
                 System.out.println("Starting all " + threads + " reader virtual threads\n");
+
+                cleanLogDirectory();
 
                 // Crea y ejecuta los threads de lectura usando Virtual Threads
                 ReadRequest[] rThread;
@@ -232,6 +235,19 @@ public class Reader implements Runnable{
         show(prompt + " -");
         show("  Available connections: " + pds.getAvailableConnectionsCount());
         show("  Borrowed connections: " + pds.getBorrowedConnectionsCount());
+    }
+
+    private void cleanLogDirectory() {
+        File logDir = new File("/home/opc/Documents/cursor_projects/tsbechaudit/log");
+        File[] oldLogs = logDir.listFiles((dir, name) -> name.startsWith("read_thread_") && name.endsWith(".log"));
+    
+        if (oldLogs != null) {
+            for (File log : oldLogs) {
+                if (log.delete()) {
+                    System.out.println("Deleted old log: " + log.getName());
+                }
+            }
+        }
     }
 
 }

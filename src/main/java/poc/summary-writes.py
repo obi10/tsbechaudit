@@ -3,7 +3,7 @@ import math
 import numpy as np
 import pandas as pd
 
-data   = pd.read_csv('/home/opc/Documents/tsbechaudit/log/write_thread.csv', sep = ',', header=None)
+data   = pd.read_csv('/home/opc/Documents/cursor_projects/tsbechaudit/log/write_thread.csv', sep = ',', header=None)
 data.columns = ["ts", "query", "rowcount", "ela"]
 
 def count(x):

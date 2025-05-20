@@ -91,7 +91,7 @@ public class ReadRequest implements Runnable {
         PreparedStatement prepStmt;
         long start, end;
 
-        String sql = "SELECT item_id FROM embeddings ORDER BY vector_distance(embedding, ?, COSINE) FETCH FIRST 3 ROWS ONLY";
+        String sql = "SELECT id FROM sift1B ORDER BY vector_distance(embedding, ?, EUCLIDEAN) FETCH FIRST 3 ROWS ONLY";
         
         try {
             prepStmt = conn.prepareStatement(sql);
@@ -105,10 +105,12 @@ public class ReadRequest implements Runnable {
                 try {
                     prepStmt.setObject(1, vector, OracleType.VECTOR_FLOAT32);
                     ResultSet rs = prepStmt.executeQuery();
+                    /*
                     while (rs.next()) {
                         rs.getInt(1); //aca se esta midiendo tambien la lectura de filas (confirmar con Diego si esto se debe medir)
                         rowCount++; //esto tambien aumenta tiempo, ver donde reubicarlo
                     }
+                    */
                 } catch (Exception e) {
                     System.out.println("Error en select ThreadRead: " + e);
                     rowCount = 0;
